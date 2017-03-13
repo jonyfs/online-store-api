@@ -8,7 +8,8 @@ package br.com.jonyfs.online.store.domain;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.Size;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -21,16 +22,17 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Category extends AbstractAuditable<User, Long> {
+public class Invoice extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = -5330930853338072254L;
 
+    @NotNull
     @NotEmpty
-    @Size(max = 200)
-    String name;
+    @OneToMany(targetEntity = InvoiceItem.class, mappedBy = "invoice")
+    private List<InvoiceItem> items;
 
-    @OneToMany(targetEntity = Product.class, mappedBy = "category")
-    private List<Product> products;
+    @OneToOne(targetEntity = Authorization.class)
+    private Authorization authorization;
 
 
 }

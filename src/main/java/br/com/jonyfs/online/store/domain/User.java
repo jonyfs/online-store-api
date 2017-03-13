@@ -8,8 +8,10 @@ package br.com.jonyfs.online.store.domain;
 import javax.persistence.Entity;
 import javax.validation.constraints.Size;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 
 /**
  *
@@ -17,7 +19,8 @@ import org.hibernate.validator.constraints.NotEmpty;
  */
 @Entity
 @Data
-public class User extends AuditableEntity<Long> {
+@EqualsAndHashCode(callSuper = true)
+public class User extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = 3734142812356869370L;
 

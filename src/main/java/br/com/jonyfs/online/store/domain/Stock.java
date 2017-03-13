@@ -5,16 +5,16 @@
  */
 package br.com.jonyfs.online.store.domain;
 
-import java.util.List;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.jpa.domain.AbstractAuditable;
 
 /**
@@ -24,20 +24,21 @@ import org.springframework.data.jpa.domain.AbstractAuditable;
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Product extends AbstractAuditable<User, Long> {
+public class Stock extends AbstractAuditable<User, Long> {
 
     private static final long serialVersionUID = -1530816839411604526L;
 
     @Column
-    @NotEmpty
-    @Size(max = 200)
-    private String name;
+    @Temporal(value = TemporalType.TIMESTAMP)
+    private Date registrationDate;
 
-    @ManyToOne(targetEntity = Category.class)
+    @Column
     @NotNull
-    private Category category;
+    @DecimalMin("0.00")
+    Double quantity;
 
-    @OneToMany(targetEntity = Stock.class, mappedBy = "product")
-    private List<Stock> stocks;
+    @ManyToOne(targetEntity = Product.class)
+    @NotNull
+    private Product product;
 
 }
